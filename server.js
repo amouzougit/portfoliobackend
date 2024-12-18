@@ -4,8 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('express').json;
 const contactRoutes = require('./routes/contact');
-const connectDB = require('./db'); // Connexion MongoDB
-require('dotenv').config();
+const connectDB = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,20 +12,27 @@ const PORT = process.env.PORT || 5000;
 // Connexion à MongoDB
 connectDB();
 
-// Middlewares
+// Middleware CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL, // Variable d'environnement pour l'URL frontend
+  origin: process.env.FRONTEND_URL, // Autoriser l'accès depuis le frontend
   methods: ['POST', 'GET'],
   allowedHeaders: ['Content-Type'],
 }));
+
 app.use(bodyParser());
 
-// Routes
-app.use('/api', contactRoutes);
-
-// Route principale pour vérifier que le serveur fonctionne
+// Route principale
 app.get('/', (req, res) => {
   res.send('Bienvenue sur le serveur backend de mon portfolio !');
+});
+
+// Routes API
+app.use('/api', contactRoutes);
+
+// Middleware de gestion d'erreurs
+app.use((err, req, res, next) => {
+  console.error('Erreur interne :', err.message);
+  res.status(500).json({ error: 'Une erreur interne est survenue.' });
 });
 
 // Démarrer le serveur

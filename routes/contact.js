@@ -8,16 +8,16 @@ router.post('/contact', async (req, res) => {
 
   try {
     if (!name || !email || !message) {
-      return res.status(400).json({ error: 'All fields are required' });
+      return res.status(400).json({ error: 'Tous les champs sont requis.' });
     }
 
     const newMessage = new Message({ name, email, message });
     await newMessage.save();
 
-    res.status(201).json({ message: 'Message sent successfully!' });
+    res.status(201).json({ message: 'Message envoyé avec succès !' });
   } catch (err) {
-    console.error('Error saving message:', err.message);
-    res.status(500).json({ error: 'Failed to save message, please try again.' });
+    console.error('Erreur lors de l\'enregistrement du message:', err.message);
+    res.status(500).json({ error: 'Erreur serveur, veuillez réessayer plus tard.' });
   }
 });
 

@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Message = require('../models/Message'); // Assure-toi que le modèle est bien importé
-const connectDB = require('../db'); // Assure-toi que MongoDB est bien connecté
-
-// Connecter à MongoDB
-connectDB();
+const Message = require('../models/Message');
 
 // Route POST pour sauvegarder les messages
-router.post('/api/contact', async (req, res) => {
+router.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
 
   try {

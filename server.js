@@ -7,11 +7,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: 'https://portfolio-zeta-eight-12.vercel.app', // URL de votre frontend déployé
+  methods: ['POST', 'GET'],
+  allowedHeaders: ['Content-Type'],
+}));
 app.use(bodyParser());
 
 // Routes
-app.use('/', contactRoutes); // Assure-toi que le chemin est correct
+app.use('/api', contactRoutes); // Change le chemin pour être plus spécifique
 
 // Vérifier que le serveur tourne
 app.get('/', (req, res) => {
